@@ -6,7 +6,7 @@ Actions:
 -Make vault deposit
 -Make transfer
 -Create client
--View client
+-View clients
 -Freeze card
 -Unfreeze card
 -Create card
