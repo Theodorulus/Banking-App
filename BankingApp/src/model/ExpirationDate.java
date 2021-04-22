@@ -3,8 +3,8 @@ package model;
 import java.util.Date;
 
 public class ExpirationDate {
-    int month;
-    int year;
+    private int month;
+    private int year;
 
     public ExpirationDate(int month, int year) {
         this.month = month;

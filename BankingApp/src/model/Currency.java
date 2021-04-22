@@ -2,22 +2,29 @@ package model;
 
 public class Currency {
     private String currencyName;
+    private String abbreviation;
     private double valueDependingOnDollar;
 
     public Currency() {
         this.valueDependingOnDollar = 1.0;
-        this.currencyName = "USD";
+        this.currencyName = "United States Dollar";
+        this.abbreviation = "USD";
     }
 
-    public Currency(String currencyName, double valueDependingOnDollar) {
+    public Currency(String currencyName, String abbreviation, double valueDependingOnDollar) {
         this.valueDependingOnDollar = valueDependingOnDollar;
         this.currencyName = currencyName;
+        this.abbreviation = abbreviation;
     }
 
     @Override
     public String toString() {
-        return currencyName;
+        return abbreviation;
     }
+
+    public String getAbbreviation() { return abbreviation; }
+
+    public void setAbbreviation(String abbreviation) { this.abbreviation = abbreviation; }
 
     public String getCurrencyName() {
         return currencyName;

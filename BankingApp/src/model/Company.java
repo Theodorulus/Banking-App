@@ -1,6 +1,6 @@
 package model;
 
-public class Company extends Client {
+public class Company extends Client implements Comparable <Client> {
     private String fiscalCode;
     private String companyName;
 
@@ -42,6 +42,16 @@ public class Company extends Client {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    @Override
+    public int compareTo(Client client) {
+        Company company = (Company) client;
+        if (!this.companyName.equals(company.companyName)) {
+            return this.companyName.compareTo(company.companyName);
+        } else {
+            return this.fiscalCode.compareTo(company.fiscalCode);
+        }
     }
 
     /*

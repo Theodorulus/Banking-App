@@ -1,6 +1,6 @@
 package model;
 
-public class Individual extends Client {
+public class Individual extends Client implements Comparable <Client> {
     private String identityNumber;
     private String firstName;
     private String lastName;
@@ -55,6 +55,17 @@ public class Individual extends Client {
         return firstName + " " + lastName;
     }
 
+    @Override
+    public int compareTo(Client client) {
+        Individual individual = (Individual) client;
+        String nameThis = this.firstName + " " + this.lastName;
+        String nameIndividual = individual.firstName + " " + individual.lastName;
+        if (nameThis.equals(nameIndividual)) {
+            return nameThis.compareTo(nameIndividual);
+        } else {
+            return this.identityNumber.compareTo(individual.identityNumber);
+        }
+    }
     /*
     @Override
     public String getEmail() {

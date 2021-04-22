@@ -1,23 +1,34 @@
 package model;
 
-public class Account {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeSet;
+
+public class Account implements Comparable<Account> {
+    private final static String IBAN_PREFIX = "RO";
     private String iban;
     private Client client;
     private Currency currency;
     private double numberOfUnits;
-    private Card[] cards = new Card[10];
-    private Transaction[] transactions = new Transaction[50];
+    private List<Card> cards;
+    private List<Transaction> transactions;
 
     public Account(String iban, Client client, Currency currency, double numberOfUnits) {
         this.iban = iban;
         this.client = client;
         this.currency = currency;
         this.numberOfUnits = numberOfUnits;
+        cards = new ArrayList<>();
+        transactions = new ArrayList<>();
     }
 
     @Override
     public String toString() {
         return iban + "; " + numberOfUnits + " " + currency;
+    }
+
+    public static String getIbanPrefix() {
+        return IBAN_PREFIX;
     }
 
     public String getIban() {
@@ -52,7 +63,7 @@ public class Account {
         this.numberOfUnits = numberOfUnits;
     }
 
-    public Card[] getCards() {
+    public List<Card> getCards() {
         return cards;
     }
 
@@ -62,7 +73,7 @@ public class Account {
     }
     */
 
-    public Transaction[] getTransactions() {
+    public List<Transaction> getTransactions() {
         return transactions;
     }
 
@@ -71,4 +82,18 @@ public class Account {
         this.transactions = transactions;
     }
      */
+
+    @Override
+    public int compareTo(Account account) {
+        double balanceThis = this.numberOfUnits/this.currency.getValueDependingOnDollar();
+        double balanceAccount = account.numberOfUnits/account.currency.getValueDependingOnDollar();
+        if (balanceThis > balanceAccount) {
+            return 1;
+        } else if (balanceThis < balanceAccount) {
+            return -1;
+        } else {
+            return this.iban.compareTo(account.iban);
+        }
+
+    }
 }

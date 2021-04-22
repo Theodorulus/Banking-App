@@ -23,16 +23,15 @@ public class CardService {
             cvv = cvv + rand.nextInt(10);
         }
         Card card;
-        if(type == "credit") {
+        if(type.equals("credit")) {
             ExpirationDate expirationDate = new ExpirationDate(Integer.parseInt(date[0]) + 3, Integer.parseInt(date[1]));
-            card = new CreditCard(cardNumber, expirationDate, holderName, cvv, account, false);
+            double limit = 5000;
+            card = new CreditCard(cardNumber, expirationDate, holderName, cvv, account, false, limit);
         } else {
             ExpirationDate expirationDate = new ExpirationDate(Integer.parseInt(date[0]) + 2, Integer.parseInt(date[1]));
             card = new DebitCard(cardNumber, expirationDate, holderName, cvv, account, false);
         }
-        AccountService accountService = new AccountService();
-        int index = accountService.getLastAvailableIndexCards(account);
-        account.getCards()[index] = card;
+        account.getCards().add(card);
     }
 
     public void freezeCard(Card card) {
@@ -40,7 +39,7 @@ public class CardService {
             System.out.println("Are you sure you want to freeze " + card.toString() + "? (yes/no)");
             Scanner scanner = new Scanner(System.in);
             String answear = scanner.nextLine();
-            if(answear.compareTo("yes") == 0) {
+            if(answear.equals("yes")) {
                 card.setFrozen(true);
                 System.out.println("Card successfully frozen.");
             } else if(answear.compareTo("no") == 0) {

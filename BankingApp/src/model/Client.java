@@ -1,20 +1,23 @@
 package model;
 
-import java.util.Arrays;
+import java.util.*;
 
-public abstract class Client {
+public abstract class Client implements Comparable<Client> {
     protected String email;
     protected String phoneNumber;
-    protected Account[] accounts = new Account[10];
-    protected Vault[] vaults = new Vault[10];
+    protected List<Account> accounts;
+    protected List<Vault> vaults;
 
     public Client() {
-
+        accounts = new ArrayList<>();
+        vaults = new ArrayList<>();
     }
 
     public Client(String email, String phoneNumber) {
         this.email = email;
         this.phoneNumber = phoneNumber;
+        accounts = new ArrayList<>();
+        vaults = new ArrayList<>();
     }
 
     @Override
@@ -43,11 +46,11 @@ public abstract class Client {
         this.phoneNumber = phoneNumber;
     }
 
-    public Account[] getAccounts() {
+    public List<Account> getAccounts() {
         return accounts;
     }
 
-    public Vault[] getVaults() {
+    public List<Vault> getVaults() {
         return vaults;
     }
 
@@ -57,12 +60,15 @@ public abstract class Client {
     }
     */
 
-    public void setAccounts(Account[] accounts) {
-        this.accounts = accounts;
-    }
+    //public void setAccounts(Account[] accounts) {this.accounts = accounts; }
 
     public String getName() {
         return "";
+    }
+
+    @Override
+    public int compareTo(Client client) {
+        return this.email.compareTo(client.email);
     }
 
 }

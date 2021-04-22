@@ -1,11 +1,15 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Statement {
     private Account account;
-    private Transaction[] transactions= new Transaction[50];
+    private List<Transaction> transactions;
 
     public Statement(Account account) {
         this.account = account;
+        this.transactions = new ArrayList<>();
     }
 
     public Account getAccount() {
@@ -16,7 +20,7 @@ public class Statement {
         this.account = account;
     }
 
-    public Transaction[] getTransactions() {
+    public List<Transaction> getTransactions() {
         return transactions;
     }
 

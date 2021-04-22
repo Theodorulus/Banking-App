@@ -1,24 +1,28 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Vault {
     private String identificationNumber;
-    private Client[] members = new Client[15];
+    private List<Client> members;
     private Currency currency;
     private double numberOfUnits;
-    private Transaction[] transactions = new Transaction[50];
+    private List<Transaction> transactions;
 
     public Vault(String identificationNumber, Client foundingMember, Currency currency, double numberOfUnits) {
         this.identificationNumber = identificationNumber;
-        this.members[0] = foundingMember;
+        this.members = new ArrayList<>();
+        this.members.add(foundingMember);
         this.currency = currency;
         this.numberOfUnits = numberOfUnits;
+        this.transactions = new ArrayList<>();
     }
 
     @Override
     public String toString() {
-        return identificationNumber + " " + Arrays.toString(members) + " " + numberOfUnits + " " + currency;
+        return identificationNumber + " " + members.toString() + " " + numberOfUnits + " " + currency;
     }
 
     public String getIdentificationNumber() {
@@ -29,7 +33,7 @@ public class Vault {
         this.identificationNumber = identificationNumber;
     }
 
-    public Client[] getMembers() {
+    public List<Client> getMembers() {
         return members;
     }
 
@@ -55,7 +59,7 @@ public class Vault {
         this.numberOfUnits = numberOfUnits;
     }
 
-    public Transaction[] getTransactions() {
+    public List<Transaction> getTransactions() {
         return transactions;
     }
 

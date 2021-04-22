@@ -1,9 +1,11 @@
 package model;
 
 public class CreditCard extends Card {
+    private double limit;
 
-    public CreditCard(String cardNumber, ExpirationDate expirationDate, String holderName, String cvv, Account account, boolean frozen) {
+    public CreditCard(String cardNumber, ExpirationDate expirationDate, String holderName, String cvv, Account account, boolean frozen, double limit) {
         super(cardNumber, expirationDate, holderName, cvv, account, frozen);
+        this.limit = limit;
     }
 
     public void setCardNumber(String cardNumber) {
@@ -44,6 +46,11 @@ public class CreditCard extends Card {
 
     public Account getAccount() {
         return this.account;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " with limit " + limit;
     }
 
 }

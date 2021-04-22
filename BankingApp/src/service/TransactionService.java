@@ -7,8 +7,8 @@ import java.util.Date;
 public class TransactionService {
     public void makeTransfer(double value, Account senderAccount, Client destinationClient, String message) {
         Date date = new Date();
-        if(destinationClient.getAccounts()[0] != null) {
-            Account destinationAccount = destinationClient.getAccounts()[0];
+        if(destinationClient.getAccounts().get(0) != null) {
+            Account destinationAccount = destinationClient.getAccounts().get(0);
             Currency destinationCurrency = destinationAccount.getCurrency();
             Currency senderCurrency = senderAccount.getCurrency();
             //Client sender = senderAccount.getClient();
