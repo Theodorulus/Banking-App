@@ -14,7 +14,12 @@ Actions:
 -Create card
 -Create account
 -Close account
+-Make buying transaction
 
+<<<<<<< Updated upstream
+=======
+TO DO->Sort accounts by amount of money
+>>>>>>> Stashed changes
 
 Diagram draft:
 /*
