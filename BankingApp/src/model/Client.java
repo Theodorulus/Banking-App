@@ -55,12 +55,12 @@ public abstract class Client implements Comparable<Client> {
     }
 
     /*
-    public void setVaults(Vault[] vaults) {
+    public void setVaults(List<Vault> vaults) {
         this.vaults = vaults;
     }
     */
 
-    //public void setAccounts(Account[] accounts) {this.accounts = accounts; }
+    //public void setAccounts(List<Account> accounts) {this.accounts = accounts; }
 
     public String getName() {
         return "";

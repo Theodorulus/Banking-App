@@ -4,21 +4,21 @@ import java.util.Date;
 
 public class BuyingTransaction extends Transaction {
     private Card senderCard;
-    private Company destinationCompany;
+    private Account destinationCompanyAccount;
 
 
-    public BuyingTransaction(double value, String status, Date time, Card senderCard, Company destinationCompany) {
+    public BuyingTransaction(double value, String status, Date time, Card senderCard, Account destinationCompanyAccount) {
         super(value, status, time);
-        this.destinationCompany = destinationCompany;
+        this.destinationCompanyAccount = destinationCompanyAccount;
         this.senderCard = senderCard;
     }
 
-    public Company getDestinationCompany() {
-        return destinationCompany;
+    public Account getDestinationCompanyAccount() {
+        return destinationCompanyAccount;
     }
 
-    public void setDestinationCompany(Company destinationCompany) {
-        this.destinationCompany = destinationCompany;
+    public void setDestinationCompany(Account destinationCompanyAccount) {
+        this.destinationCompanyAccount = destinationCompanyAccount;
     }
 
     public Card getSenderCard() {
@@ -29,29 +29,15 @@ public class BuyingTransaction extends Transaction {
         this.senderCard = senderCard;
     }
 
-    /*
-    public double getValue() {
-        return value;
+    @Override
+    public String toString() {
+        return "Customer " + senderCard.getAccount().getClient() +
+                " made from account (" + senderCard.getAccount() +
+                ") with card (" + senderCard +
+                ") a transaction with the value of " + value +
+                " to " + destinationCompanyAccount.getClient() +
+                "'s account (" + destinationCompanyAccount +
+                ") at " + time +
+                ". Status of the transaction is: " + status;
     }
-
-    public void setValue(double value) {
-        this.value = value;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Date getTime() {
-        return time;
-    }
-
-    public void setTime(Date time) {
-        this.time = time;
-    }
-    */
 }

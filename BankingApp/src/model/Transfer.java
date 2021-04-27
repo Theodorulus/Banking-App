@@ -16,14 +16,14 @@ public class Transfer extends Transaction {
 
     @Override
     public String toString() {
-        return "Transfer{" +
-                "value=" + value +
-                ", status='" + status + '\'' +
-                ", time=" + time +
-                ", senderAccount=" + senderAccount +
-                ", destionationClient=" + destionationClient +
-                ", message='" + message + '\'' +
-                '}';
+        return "Client " + senderAccount.getClient() +
+                " sent " + value +
+                " " + senderAccount.getCurrency() +
+                " from account (" + senderAccount +
+                ") to " + destionationClient +
+                " with the message: '" + message +
+                "' at " + time +
+                ". Status of the tranfer: " + status;
     }
 
     public Client getDestionationClient() {
@@ -50,29 +50,5 @@ public class Transfer extends Transaction {
         this.message = message;
     }
 
-    /*
-    public double getValue() {
-        return value;
-    }
-
-    public void setValue(double value) {
-        this.value = value;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Date getTime() {
-        return time;
-    }
-
-    public void setTime(Date time) {
-        this.time = time;
-    }*/
 
 }

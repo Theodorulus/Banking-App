@@ -24,9 +24,14 @@ public class Statement {
         return transactions;
     }
 
-    /*
-    public void setTransactions(Transaction[] transactions) {
-        this.transactions = transactions;
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = new ArrayList<>(transactions);
     }
-     */
+
+    @Override
+    public String toString() {
+        StringBuilder statement = new StringBuilder("Statement of account " + account +  "\nhaving the following transactions: ");
+        transactions.forEach(transaction -> statement.append("\n" + transaction));
+        return statement.toString();
+    }
 }

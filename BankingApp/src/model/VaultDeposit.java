@@ -14,12 +14,13 @@ public class VaultDeposit extends Transaction {
 
     @Override
     public String toString() {
-        return "VaultDeposit{" +
-                "value=" + value +
-                ", status='" + status + '\'' +
-                ", time=" + time +
-                ", destionationVault=" + destionationVault +
-                '}';
+        return "Client " + senderAccount.getClient() +
+                " deposited " + value +
+                " " + senderAccount.getCurrency() +
+                " from account( " + senderAccount +
+                ") in vault (" + destionationVault +
+                ") at " + time +
+                ". Status of the deposit: " + status;
     }
 
     public Vault getDestionationVault() {
@@ -37,30 +38,4 @@ public class VaultDeposit extends Transaction {
     public void setSenderAccount(Account senderAccount) {
         this.senderAccount = senderAccount;
     }
-
-    /*
-    public double getValue() {
-        return value;
-    }
-
-    public void setValue(double value) {
-        this.value = value;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Date getTime() {
-        return time;
-    }
-
-    public void setTime(Date time) {
-        this.time = time;
-    }
-    */
 }

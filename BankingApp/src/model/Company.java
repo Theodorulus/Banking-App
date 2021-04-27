@@ -1,6 +1,6 @@
 package model;
 
-public class Company extends Client implements Comparable <Client> {
+public class Company extends Client {//implements Comparable <Client> {
     private String fiscalCode;
     private String companyName;
 
@@ -44,6 +44,7 @@ public class Company extends Client implements Comparable <Client> {
         this.companyName = companyName;
     }
 
+    /*
     @Override
     public int compareTo(Client client) {
         Company company = (Company) client;
@@ -52,38 +53,5 @@ public class Company extends Client implements Comparable <Client> {
         } else {
             return this.fiscalCode.compareTo(company.fiscalCode);
         }
-    }
-
-    /*
-    @Override
-    public String getEmail() {
-        return email;
-    }
-
-    @Override
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    @Override
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    @Override
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    @Override
-    public Account[] getAccounts() {
-        return accounts;
-    }
-
-
-    @Override
-    public void setAccounts(Account[] accounts) {
-        this.accounts = accounts;
-    }
-     */
+    }*/
 }

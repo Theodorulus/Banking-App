@@ -38,7 +38,7 @@ public class Vault {
     }
 
     /*
-    public void setMembersAccounts(Account[] membersAccounts) {
+    public void setMembersAccounts(List<Account> membersAccounts) {
         this.membersAccounts = membersAccounts;
     }
      */
@@ -64,7 +64,7 @@ public class Vault {
     }
 
     /*
-    public void setTransactions(Transaction[] transactions) {
+    public void setTransactions(List<Transaction> transactions) {
         this.transactions = transactions;
     }
      */

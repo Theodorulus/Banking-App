@@ -2,7 +2,6 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeSet;
 
 public class Account implements Comparable<Account> {
     private final static String IBAN_PREFIX = "RO";

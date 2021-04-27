@@ -1,6 +1,6 @@
 package model;
 
-public class Currency {
+public class Currency implements Comparable<Currency> {
     private String currencyName;
     private String abbreviation;
     private double valueDependingOnDollar;
@@ -40,5 +40,16 @@ public class Currency {
 
     public void setValueDependingOnDollar(double valueDependingOnDollar) {
         this.valueDependingOnDollar = valueDependingOnDollar;
+    }
+
+    @Override
+    public int compareTo(Currency currency) {
+        if (this.valueDependingOnDollar > currency.valueDependingOnDollar) {
+            return 1;
+        } else if(this.valueDependingOnDollar < currency.valueDependingOnDollar) {
+            return -1;
+        } else {
+            return this.currencyName.compareTo(currency.currencyName);
+        }
     }
 }

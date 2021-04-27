@@ -48,6 +48,14 @@ public class CreditCard extends Card {
         return this.account;
     }
 
+    public double getLimit() {
+        return limit;
+    }
+
+    public void setLimit(double limit) {
+        this.limit = limit;
+    }
+
     @Override
     public String toString() {
         return super.toString() + " with limit " + limit;

@@ -1,6 +1,6 @@
 package model;
 
-public class Individual extends Client implements Comparable <Client> {
+public class Individual extends Client {//implements Comparable <Client> {
     private String identityNumber;
     private String firstName;
     private String lastName;
@@ -55,6 +55,7 @@ public class Individual extends Client implements Comparable <Client> {
         return firstName + " " + lastName;
     }
 
+    /*
     @Override
     public int compareTo(Client client) {
         Individual individual = (Individual) client;
@@ -65,36 +66,5 @@ public class Individual extends Client implements Comparable <Client> {
         } else {
             return this.identityNumber.compareTo(individual.identityNumber);
         }
-    }
-    /*
-    @Override
-    public String getEmail() {
-        return email;
-    }
-
-    @Override
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    @Override
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    @Override
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    @Override
-    public Account[] getAccounts() {
-        return accounts;
-    }
-
-    @Override
-    public void setAccounts(Account[] accounts) {
-        this.accounts = accounts;
-    }
-     */
+    }*/
 }

@@ -8,6 +8,17 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class CardService {
+    private static CardService INSTANCE;
+
+    private CardService () { }
+
+    public static CardService getInstance() {
+        if(INSTANCE == null) {
+            INSTANCE = new CardService();
+        }
+        return INSTANCE;
+    }
+
     public void createCard (Account account, String type) {
         Client client = account.getClient();
         String cardNumber = "";
@@ -32,6 +43,9 @@ public class CardService {
             card = new DebitCard(cardNumber, expirationDate, holderName, cvv, account, false);
         }
         account.getCards().add(card);
+
+        AuditService auditService = AuditService.getInstance();
+        auditService.logAction("Create Card");
     }
 
     public void freezeCard(Card card) {
@@ -42,6 +56,9 @@ public class CardService {
             if(answear.equals("yes")) {
                 card.setFrozen(true);
                 System.out.println("Card successfully frozen.");
+
+                AuditService auditService = AuditService.getInstance();
+                auditService.logAction("Freeze Card");
             } else if(answear.compareTo("no") == 0) {
                 System.out.println("OK! Card will not be frozen.");
             } else {
@@ -50,14 +67,19 @@ public class CardService {
         } else {
             System.out.println("Card already frozen.");
         }
+
     }
 
     public void unfreezeCard(Card card) {
         if(card.isFrozen()) {
             card.setFrozen(false);
             System.out.println("Card successfully unfrozen.");
+
+            AuditService auditService = AuditService.getInstance();
+            auditService.logAction("Unfreeze Card");
         } else {
             System.out.println("Card is not frozen.");
         }
+
     }
 }

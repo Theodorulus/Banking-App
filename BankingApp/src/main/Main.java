@@ -1,134 +1,142 @@
 package main;
 
 import model.*;
+import model.Currency;
 import service.*;
 
-import java.util.Date;
-import java.util.Random;
+import java.util.*;
 import java.time.LocalDate;
-import java.util.Set;
-import java.util.TreeSet;
 
 public class Main {
     public static void main (String[] args) {
         /*
-        Date input:
-        1
-        2
+        Input data:
+        3
+        4
         yes
         */
+        readData();
+        app();
+    }
+
+    public static void readData() {
+        Bank bank = Bank.getInstance();
+        ReadingService readingService = ReadingService.getInstance();
+
+        readingService.readClients();
+        readingService.readCurrencies();
+        readingService.readAccounts();
+        readingService.readCards();// should get Exception("No accounts with given currency") for (hans_landa@gmail.com,RON,debit)
+    }
+
+    public static void app() {
+        Bank bank = Bank.getInstance();
+        BankService bankService = BankService.getInstance();
+
+        //Print bank clients and currencies
+        System.out.println(bank);
+
+        List<Client> clients = bank.getClients();
 
         /*
-        Date date = new Date();
-        System.out.println(date);
-        Date date1 = new Date();
-        System.out.println(date1);
-        System.out.println(date1.compareTo(date));
+        Currency euro = new Currency(), usd = new Currency();
+        try{
+            euro = bankService.findCurrencyByName(bank, "EUR");
+        } catch(Exception e) {
+            System.out.println(e.toString());
+        }
+
+        try{
+            usd = bankService.findCurrencyByName(bank, "USD");
+        } catch(Exception e) {
+            System.out.println(e.toString());
+        }
         */
 
-        Set<Client> clients = new TreeSet<> ();
+        Currency ron = new Currency();
+        try{
+            ron = bankService.findCurrencyByName(bank, "RON");
+        } catch(Exception e) {
+            System.out.println(e.toString());
+        }
 
-        clients.add(new Individual("marcelus@gmail.com", "0712345678", "5000520999999", "Marcelus", "Wallace"));
-        clients.add(new Individual("john@gmail.com", "0712345679", "5000520999998", "John", "Travolta"));
-        clients.add(new Company("office@th_experts.com", "0777777777", "22111111", "TH Experts"));
+        // Print accounts
+        System.out.println("\nAccounts of " + clients.get(0).toString() + ":");
 
-        clients.forEach(System.out::println);
-        //app();
-    }
-    public static void app() {
-        // Add Client & View Clients
-        Client[] clients = new Client[50];
-        ClientService clientService = new ClientService();
-        clientService.addClient(clients, new Individual("marcelus@gmail.com", "0712345678", "5000520999999", "Marcelus", "Wallace"));
-        clientService.addClient(clients, new Company("office@th_experts.com", "0777777777", "22111111", "TH Experts"));
-        clientService.addClient(clients, new Individual("john@gmail.com", "0712345679", "5000520999998", "John", "Travolta"));
-        clientService.viewClients(clients);
-
-        Currency[] currencies = new Currency[5];
-        currencies[0] = new Currency();
-        currencies[1] = new Currency("EURO", "EUR", 1.1769715);
-        currencies[2] = new Currency("ROMANIAN LEU", "RON", 0.23978812);
-
-        // Create account
-        AccountService accountService = new AccountService();
-        accountService.createAccount(clients[0], currencies[2], 1500);
-        accountService.createAccount(clients[0], currencies[0], 100);
-        accountService.createAccount(clients[0], currencies[1], 150);
-        accountService.createAccount(clients[0], currencies[2], 500);
-        accountService.createAccount(clients[2], currencies[0], 5000);
-        System.out.println("\nAccounts of " + clients[0].toString() + ":");
-
-        clients[0].getAccounts().forEach(System.out::println);
+        clients.get(0).getAccounts().forEach(System.out::println);
 
         // Close account
-
+        AccountService accountService = AccountService.getInstance();
         System.out.println();
-        accountService.closeAccount(clients[0]);
-        System.out.println("\nAccounts of " + clients[0].toString() + " after closing an account:");
+        accountService.closeAccount(clients.get(0));
+        System.out.println("\nAccounts of " + clients.get(0).toString() + " after closing an account:");
 
-        clients[0].getAccounts().forEach(System.out::println);
+        clients.get(0).getAccounts().forEach(System.out::println);
 
-        // Create card
-
-        CardService cardService = new CardService();
-        cardService.createCard(clients[0].getAccounts().get(0), "credit");
-        cardService.createCard(clients[0].getAccounts().get(0), "debit");
-
-        System.out.println("\nCards of " + clients[0].toString() + "'s account " + clients[0].getAccounts().get(0) + ":");
-        clients[0].getAccounts().get(0).getCards().forEach(card -> System.out.println(card));
+        // Print cards
+        System.out.println("\nCards of " + clients.get(0).toString() + "'s account " + clients.get(0).getAccounts().get(0) + ":");
+        clients.get(0).getAccounts().get(0).getCards().forEach(card -> System.out.println(card));
 
         // Freeze/unfreeze card
         System.out.println();
 
-        cardService.freezeCard(clients[0].getAccounts().get(0).getCards().get(0));
+        CardService cardService = CardService.getInstance();
+        cardService.freezeCard(clients.get(0).getAccounts().get(0).getCards().get(0));
         System.out.println("The card is: ");
-        if(clients[0].getAccounts().get(0).getCards().get(0).isFrozen())
+        if(clients.get(0).getAccounts().get(0).getCards().get(0).isFrozen())
             System.out.println("Frozen");
         else
             System.out.println("Not Frozen");
 
-        cardService.unfreezeCard(clients[0].getAccounts().get(0).getCards().get(0));
+        cardService.unfreezeCard(clients.get(0).getAccounts().get(0).getCards().get(0));
 
         System.out.println("The card is: ");
 
-        if(clients[0].getAccounts().get(0).getCards().get(0).isFrozen())
+        if(clients.get(0).getAccounts().get(0).getCards().get(0).isFrozen())
             System.out.println("Frozen");
         else
             System.out.println("Not Frozen");
 
         //Create vault
-        VaultService vaultService = new VaultService();
-        vaultService.createVault(clients[0], currencies[2]);
-        vaultService.addMemberToVault(clients[0].getVaults().get(0), clients[1]);
+        VaultService vaultService = VaultService.getInstance();
+        vaultService.createVault(bank, clients.get(0), ron);
+        vaultService.addMemberToVault(clients.get(0).getVaults().get(0), clients.get(1));
 
-        System.out.println("\nVaults of " + clients[0] + ":");
-        clients[0].getVaults().forEach(System.out::println);
+        System.out.println("\nVaults of " + clients.get(0) + ":");
+        clients.get(0).getVaults().forEach(System.out::println);
 
 
-        System.out.println("\nMembers of vault " + clients[0].getVaults().get(0) + ":");
-        clients[0].getVaults().get(0).getMembers().forEach(System.out::println);
+        System.out.println("\nMembers of vault " + clients.get(0).getVaults().get(0) + ":");
+        clients.get(0).getVaults().get(0).getMembers().forEach(System.out::println);
 
         //Make transfer
-        TransactionService transactionService = new TransactionService();
-        transactionService.makeTransfer(100, clients[0].getAccounts().get(0), clients[2],"salut");
-        System.out.println("\nTransactions of " + clients[0] + "'s account " + clients[0].getAccounts().get(0) + ":");
-        clients[0].getAccounts().get(0).getTransactions().forEach(System.out::println);
+        TransactionService transactionService = TransactionService.getInstance();
+        transactionService.makeTransfer(100, clients.get(0).getAccounts().get(0), clients.get(2),"salut");
+        System.out.println("\nTransactions of " + clients.get(0) + "'s account " + clients.get(0).getAccounts().get(0) + ":");
+        clients.get(0).getAccounts().get(0).getTransactions().forEach(System.out::println);
 
-        System.out.println("\nTransactions of " + clients[2] + "'s account " + clients[2].getAccounts().get(0) + ":");
-        clients[2].getAccounts().get(0).getTransactions().forEach(System.out::println);
+        System.out.println("\nTransactions of " + clients.get(2) + "'s account " + clients.get(2).getAccounts().get(0) + ":");
+        clients.get(2).getAccounts().get(0).getTransactions().forEach(System.out::println);
 
         System.out.println("\nThe accounts after the transfer:");
 
-        System.out.println(clients[0].getAccounts().get(0));
-        System.out.println(clients[2].getAccounts().get(0));
+        System.out.println(clients.get(0).getAccounts().get(0));
+        System.out.println(clients.get(2).getAccounts().get(0));
 
         //Make vault deposit
-        transactionService.makeVaultDeposit(100, clients[0].getAccounts().get(0), clients[0].getVaults().get(0));
-        System.out.println("\nTransactions of " + clients[0] + "'s account " + clients[0].getAccounts().get(0) + ":");
-        clients[0].getAccounts().get(0).getTransactions().forEach(System.out::println);
+        transactionService.makeVaultDeposit(100, clients.get(0).getAccounts().get(0), clients.get(0).getVaults().get(0));
+        System.out.println("\nTransactions of " + clients.get(0) + "'s account " + clients.get(0).getAccounts().get(0) + ":");
+        clients.get(0).getAccounts().get(0).getTransactions().forEach(System.out::println);
+
+        //Make buying transaction
+        System.out.println();
+        transactionService.makeBuyingTransaction(59, clients.get(0).getAccounts().get(0).getCards().get(0), clients.get(1).getAccounts().get(0));
+        System.out.println("\nTransactions of " + clients.get(0) + "'s account " + clients.get(0).getAccounts().get(0) + ":");
+        clients.get(0).getAccounts().get(0).getTransactions().forEach(System.out::println);
 
         //Extract statement
-        StatementService statementService = new StatementService();
-        statementService.extractStatement(clients[0].getAccounts().get(0));
+        System.out.println();
+        StatementService statementService = StatementService.getInstance();
+        System.out.println(statementService.extractStatement(clients.get(0).getAccounts().get(0)));
     }
 }

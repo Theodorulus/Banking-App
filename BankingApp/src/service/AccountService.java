@@ -1,37 +1,57 @@
 package service;
 
-import model.Account;
-import model.Client;
-import model.Currency;
-import model.Transaction;
+import model.*;
 
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class AccountService {
-    public void createAccount(Client client, Currency currency, double firstDeposit) {
-        StringBuilder ibanBuilder = new StringBuilder(Account.getIbanPrefix());
-        Random rand = new Random();
-        ibanBuilder.append(rand.nextInt(10));
-        ibanBuilder.append(rand.nextInt(10));
-        ibanBuilder.append("THBN");
-        for(int i = 0; i < 13; i++) {
-            ibanBuilder.append(rand.nextInt(10));
+    private static AccountService INSTANCE;
+
+    private AccountService () { }
+
+    public static AccountService getInstance() {
+        if(INSTANCE == null) {
+            INSTANCE = new AccountService();
         }
-        ibanBuilder.append(currency.getAbbreviation());
-        //TO DO -> Check if iban is unique
-        String iban = ibanBuilder.toString();
+        return INSTANCE;
+    }
+
+    public void createAccount(Bank bank, Client client, Currency currency, double firstDeposit) {
+        boolean ok = true;
+        String iban;
+        do {
+            StringBuilder ibanBuilder = new StringBuilder(Account.getIbanPrefix());
+            Random rand = new Random();
+            ibanBuilder.append(rand.nextInt(10));
+            ibanBuilder.append(rand.nextInt(10));
+            ibanBuilder.append("THBN");
+            for (int i = 0; i < 13; i++) {
+                ibanBuilder.append(rand.nextInt(10));
+            }
+            ibanBuilder.append(currency.getAbbreviation());
+            iban = ibanBuilder.toString();
+
+            List<Client> clients = bank.getClients();
+            List<List<Account>> accountsListOfLists = clients.stream()
+                    .map(client1 -> client1.getAccounts())
+                    .collect(Collectors.toList());
+            for (List<Account> accounts : accountsListOfLists)
+                for (Account account : accounts)
+                    if (account.getIban().equals(iban))
+                        ok = false;
+        } while(!ok);
         Account account = new Account(iban, client, currency, firstDeposit);
 
-        //ClientService clientService = new ClientService();
-        //int index = clientService.getLastAvailableIndexAccounts(client);
-
         client.getAccounts().add(account);
+
+        AuditService auditService = AuditService.getInstance();
+        auditService.logAction("Create Account");
     }
 
     public void closeAccount(Client client) {
-        //ClientService clientService = new ClientService();
-        //int index = clientService.getLastAvailableIndexAccounts(client);
 
         System.out.println("List of your accounts:");
         for(int i = 0; i < client.getAccounts().size(); i++) {
@@ -51,38 +71,12 @@ public class AccountService {
 
         client.getAccounts().remove(closedAccountIndex - 1);
 
-        /*Account[] accountsCopy = new Account[client.getAccounts().length];
-        client.getAccounts()[closedAccountIndex - 1] = null;
-        for (int i = 0, j = 0; i < accountsCopy.length; i++){
-            if(client.getAccounts()[i] != null) {
-                accountsCopy[j++] = client.getAccounts()[i];
-            }
-        }
-        client.setAccounts(accountsCopy);*/
+        AuditService auditService = AuditService.getInstance();
+        auditService.logAction("Close Account");
     }
 
     public void addTransaction(Account account, Transaction transaction) {
-        //int index = getLastAvailableIndexTransactions(account);
         account.getTransactions().add(transaction);
     }
 
-
-
-    /*public int getLastAvailableIndexCards(Account account) {
-        for(int i = 0; i < account.getCards().length; i++) {
-            if (account.getCards()[i] == null) {
-                return i;
-            }
-        }
-        return -1;
-    }*/
-
-    /*public int getLastAvailableIndexTransactions(Account account) {
-        for(int i = 0; i < account.getTransactions().length; i++) {
-            if (account.getTransactions()[i] == null) {
-                return i;
-            }
-        }
-        return -1;
-    }*/
 }
