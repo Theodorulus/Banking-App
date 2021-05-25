@@ -1,8 +1,6 @@
 package service;
 
-import model.Bank;
-import model.Client;
-import model.Currency;
+import model.*;
 
 public class BankService {
     private static BankService INSTANCE;
@@ -14,6 +12,22 @@ public class BankService {
             INSTANCE = new BankService();
         }
         return INSTANCE;
+    }
+
+    public void deleteAllBankCurrencies(Bank bank) {
+        bank.getCurrencies().clear();
+    }
+
+    public void deleteAllBankClients(Bank bank) {
+        bank.getClients().clear();
+    }
+
+    public void deleteAllAccounts(Bank bank) {
+        bank.getClients().forEach(client -> client.getAccounts().clear());
+    }
+
+    public void deleteAllCards(Bank bank) {
+        bank.getClients().forEach(client -> client.getAccounts().forEach(account -> account.getCards().clear()));
     }
 
     public void addClient(Bank bank, Client client) {
@@ -37,6 +51,15 @@ public class BankService {
         throw new Exception("No such currency.");
     }
 
+    public Currency findCurrencyByFullName(Bank bank, String currencyName) throws Exception {
+        for (Currency currency : bank.getCurrencies()) {
+            if(currency.getCurrencyName().equals(currencyName)) {
+                return currency;
+            }
+        }
+        throw new Exception("No such currency.");
+    }
+
     public Client findClientByEmail(Bank bank, String email) throws Exception {
         for(Client client : bank.getClients()) {
             if(client.getEmail().equals(email)) {
@@ -44,5 +67,32 @@ public class BankService {
             }
         }
         throw new Exception("There isn't a client with that e-mail in this Bank.");
+    }
+
+    public Client findClientById(Bank bank, String id) throws Exception {
+        for(Client client : bank.getClients()) {
+            if(client instanceof Individual) {
+                if(((Individual) client).getIdentityNumber().equals(id)) {
+                    return client;
+                }
+            } else if (client instanceof Company) {
+                if(((Company) client).getFiscalCode().equals(id)) {
+                    return client;
+                }
+            }
+
+        }
+        throw new Exception("There isn't a client with that id in this Bank.");
+    }
+
+    public Account findAccountByIban(Bank bank, String iban) throws Exception {
+        for(Client client : bank.getClients()) {
+            for(Account account : client.getAccounts()) {
+                if(account.getIban().equals(iban)) {
+                    return account;
+                }
+            }
+        }
+        throw new Exception("There isn't an account with that iban in this Bank.");
     }
 }
